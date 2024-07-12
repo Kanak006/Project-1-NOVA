@@ -3,16 +3,17 @@ import webbrowser
 import pyttsx3
 import musicLibrary
 import requests
-from openai import OpenAI
+# from openai import OpenAI
 from gtts import gTTS
 import pygame
 import os
+import pyaudio
 
 # pip install pocketsphinx
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init() 
-newsapi = "<Your Key Here>"
+newsapi = "9eb207393ac84cf590f0934e57b7098d"
 
 def speak_old(text):
     engine.say(text)
@@ -38,19 +39,19 @@ def speak(text):
     pygame.mixer.music.unload()
     os.remove("temp.mp3") 
 
-def aiProcess(command):
-    client = OpenAI(api_key="<Your Key Here>",
-    )
+# def aiProcess(command):
+#     client = OpenAI(api_key="<Your Key Here>",
+#     )
 
-    completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are a virtual assistant named jarvis skilled in general tasks like Alexa and Google Cloud. Give short responses please"},
-        {"role": "user", "content": command}
-    ]
-    )
+#     completion = client.chat.completions.create(
+#     model="gpt-3.5-turbo",
+#     messages=[
+#         {"role": "system", "content": "You are a virtual assistant named Nova skilled in general tasks like Alexa and Google Cloud. Give short responses please"},
+#         {"role": "user", "content": command}
+#     ]
+#     )
 
-    return completion.choices[0].message.content
+#     return completion.choices[0].message.content
 
 def processCommand(c):
     if "open google" in c.lower():
@@ -79,19 +80,18 @@ def processCommand(c):
             for article in articles:
                 speak(article['title'])
 
-    else:
-        # Let OpenAI handle the request
-        output = aiProcess(c)
-        speak(output) 
-
-
+    # else:
+    #     # Let OpenAI handle the request
+    #     output = aiProcess(c)
+    #     speak(no) 
+ 
 
 
 
 if __name__ == "__main__":
-    speak("Initializing Jarvis....")
+    speak("Initializing Nova....")
     while True:
-        # Listen for the wake word "Jarvis"
+        # Listen for the wake word "Nova"
         # obtain audio from the microphone
         r = sr.Recognizer()
          
@@ -101,11 +101,11 @@ if __name__ == "__main__":
                 print("Listening...")
                 audio = r.listen(source, timeout=2, phrase_time_limit=1)
             word = r.recognize_google(audio)
-            if(word.lower() == "jarvis"):
+            if(word.lower() == "Nova"):
                 speak("Ya")
                 # Listen for command
                 with sr.Microphone() as source:
-                    print("Jarvis Active...")
+                    print("Nova Active...")
                     audio = r.listen(source)
                     command = r.recognize_google(audio)
 
